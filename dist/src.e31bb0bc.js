@@ -9280,7 +9280,17 @@ var _zipWith = require("./internal/operators/zipWith");
 "use strict";
 
 var _rxjs = require("rxjs");
-var observable = new _rxjs.Observable(function (subscriber) {});
+var observable = new _rxjs.Observable(function (subscriber) {
+  var id = setInterval(function () {
+    subscriber.next('text');
+    console.log('leak');
+  }, 1000);
+  subscriber.complete();
+  return function () {
+    clearInterval(id);
+  };
+});
+console.log('before');
 observable.subscribe({
   next: function next(value) {
     console.log(value);
@@ -9292,6 +9302,7 @@ observable.subscribe({
     console.error(err);
   }
 });
+console.log('after');
 },{"rxjs":"../node_modules/rxjs/dist/esm5/index.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';

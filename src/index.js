@@ -1,8 +1,19 @@
 import { Observable } from "rxjs";
 
 const observable = new Observable((subscriber) => {
+    const id = setInterval(() => {
+        subscriber.next('text')
+        console.log('leak')
+    },1000)
 
+    subscriber.complete()
+
+    return () => {
+        clearInterval(id)
+    }
 })
+
+console.log('before')
 
 observable.subscribe({
     next: (value) => {
@@ -15,3 +26,5 @@ observable.subscribe({
         console.error(err)
     }
 })
+
+console.log('after')

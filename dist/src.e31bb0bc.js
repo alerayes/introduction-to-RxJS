@@ -9280,12 +9280,16 @@ var _zipWith = require("./internal/operators/zipWith");
 "use strict";
 
 var _rxjs = require("rxjs");
-var observable = new _rxjs.Observable(function (subscriber) {
-  subscriber.next('Hello world');
-});
+var observable = new _rxjs.Observable(function (subscriber) {});
 observable.subscribe({
   next: function next(value) {
     console.log(value);
+  },
+  complete: function complete() {
+    console.log('complete called!');
+  },
+  error: function error(err) {
+    console.error(err);
   }
 });
 },{"rxjs":"../node_modules/rxjs/dist/esm5/index.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {

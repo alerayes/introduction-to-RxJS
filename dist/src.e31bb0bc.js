@@ -9281,9 +9281,23 @@ var _zipWith = require("./internal/operators/zipWith");
 
 var _rxjs = require("rxjs");
 // const observable = interval(1000)
+
 // const observable =  timer(0,1000)
-var observable = (0, _rxjs.fromEvent)(document, 'click');
-var subscription = observable.subscribe(console.log);
+
+// const observable = fromEvent(
+//     document, 'click'
+// )
+// const observable = of(1,2,3,4,5)
+var observable = (0, _rxjs.from)('https://jsonplaceholder.typicode.com/todos/1');
+var subscription = observable.subscribe({
+  next: function next(value) {
+    console.log(value);
+  },
+  complete: function complete() {
+    console.log('complete');
+  }
+});
+console.log('hello');
 },{"rxjs":"../node_modules/rxjs/dist/esm5/index.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';

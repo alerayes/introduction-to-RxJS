@@ -1,17 +1,18 @@
-import { interval } from "rxjs";
-import { reduce, take, scan, tap } from 'rxjs/operators'
+import { fromEvent, interval } from "rxjs";
+import { map, mergeMap, take, tap } from 'rxjs/operators'
+import { ajax } from 'rxjs/ajax'
 
-const observable = interval(500).pipe(
-    take(5),
-    tap({
-        next(val) {
-            console.log(val)
-        }
+const button = document.querySelector('#btn')
+
+const observable = fromEvent(
+    button, 'click'
+).pipe(
+    mergeMap(() => {
+        return interval(1000).pipe(
+            tap(console.log),
+            take(5)
+        )
     }),
-    reduce(
-        (acc, val) => acc + val,
-        0
-    )
 )
 
 const subscription = observable.subscribe({
@@ -25,7 +26,5 @@ const subscription = observable.subscribe({
 
 console.log('hello')
 
-// It's an operator purely for debugging a pipeline. It does not 
-// affect a stream or the values emitted from an observable.
-// We can insert the tap operator throughout the pipeline for 
-// debugging our operators by checking the values.
+// The mergeMap operator will subscribe to an observable if
+// it's returned by the function passed into it.

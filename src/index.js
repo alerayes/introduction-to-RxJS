@@ -1,8 +1,10 @@
-import { of } from "rxjs";
-import { map } from 'rxjs/operators'
+import { of, fromEvent} from "rxjs";
+import { map, filter } from 'rxjs/operators'
 
-const observable = of(1,2,3,4,5)
-
+const observable = fromEvent(document, 'keydown').pipe(
+    map((event) => event.code),
+    filter((code) => code === "Space")
+)
 
 const subscription = observable.subscribe({
     next(value) {
@@ -16,6 +18,9 @@ const subscription = observable.subscribe({
 console.log('hello')
 
 
-// The map operator will handle transforming a value pushed from an
-// observable. We have complete control over the transformation of
-// the value. It is very similar to the map function for an array.
+// It filters values pushed from an observable.
+// We can use the filter operator to stop an observable from 
+// pushing a value by setting a condition. If the condition is not met
+// the observer will never receive the value.
+// It's a great operator for filtering values while keeping the
+// observable active.

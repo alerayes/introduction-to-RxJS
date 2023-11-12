@@ -10537,7 +10537,7 @@ var _rxjs = require("rxjs");
 var _operators = require("rxjs/operators");
 var _ajax = require("rxjs/ajax");
 var button = document.querySelector('#btn');
-var observable = (0, _rxjs.fromEvent)(button, 'click').pipe((0, _operators.concatMap)(function () {
+var observable = (0, _rxjs.fromEvent)(button, 'click').pipe((0, _operators.exhaustMap)(function () {
   return _ajax.ajax.getJSON('https://jsonplaceholder.typicode.com/todos/1').pipe((0, _operators.take)(5), (0, _operators.tap)({
     complete: function complete() {
       console.log('inner observable has been completed');
@@ -10554,14 +10554,10 @@ var subscription = observable.subscribe({
 });
 console.log('hello');
 
-// The concatMap operator is another operator for flattening
-// observables. The inner observables are automatically subscribed
-// by this operator. This operator will limit the number of active
-// observables to one.
-// Instead of cancelling the previous observable, like the switchMap
-// operator does, this operator will place observables into a 
-// queue. The next observable in the queue will not be subscribed
-// to until the current active observable has been completed.
+// The exhaustMap will subscribe to inner observables. It will
+// ignore incoming observables if the current observable is active.
+// It can be useful if you wanna wait for a current obsercable to
+// complete before moving on.
 },{"rxjs":"../node_modules/rxjs/dist/esm5/index.js","rxjs/operators":"../node_modules/rxjs/dist/esm5/operators/index.js","rxjs/ajax":"../node_modules/rxjs/dist/esm5/ajax/index.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';

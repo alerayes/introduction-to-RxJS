@@ -1,9 +1,14 @@
 import { interval } from "rxjs";
-import { reduce, take, scan } from 'rxjs/operators'
+import { reduce, take, scan, tap } from 'rxjs/operators'
 
 const observable = interval(500).pipe(
     take(5),
-    scan(
+    tap({
+        next(val) {
+            console.log(val)
+        }
+    }),
+    reduce(
         (acc, val) => acc + val,
         0
     )
@@ -20,7 +25,7 @@ const subscription = observable.subscribe({
 
 console.log('hello')
 
-// It limits the values pushed by an observable.
-// The take operator, accepts the number of values that can be 
-// pushed by an observable internally. Once the limit reaches,
-// the observable completes.
+// It's an operator purely for debugging a pipeline. It does not 
+// affect a stream or the values emitted from an observable.
+// We can insert the tap operator throughout the pipeline for 
+// debugging our operators by checking the values.

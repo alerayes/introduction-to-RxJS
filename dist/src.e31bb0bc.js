@@ -10109,7 +10109,7 @@ var _zipWith = require("../internal/operators/zipWith");
 
 var _rxjs = require("rxjs");
 var _operators = require("rxjs/operators");
-var observable = (0, _rxjs.of)(1, 2, 3, 4, 5).pipe((0, _operators.reduce)(function (acc, val) {
+var observable = (0, _rxjs.interval)(500).pipe((0, _operators.take)(5), (0, _operators.scan)(function (acc, val) {
   return acc + val;
 }, 0));
 var subscription = observable.subscribe({
@@ -10122,15 +10122,10 @@ var subscription = observable.subscribe({
 });
 console.log('hello');
 
-// The reduce operator is the counterpart to the array.reduce
-// function.
-
-// In some cases, we may want to accumulate the values emitted 
-// from an observable. The reduce operator accomplishes this 
-// action.
-
-// After the observable is completes, the reduce operator will
-// push the value it accumulated over time.
+// It limits the values pushed by an observable.
+// The take operator, accepts the number of values that can be 
+// pushed by an observable internally. Once the limit reaches,
+// the observable completes.
 },{"rxjs":"../node_modules/rxjs/dist/esm5/index.js","rxjs/operators":"../node_modules/rxjs/dist/esm5/operators/index.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';

@@ -1,8 +1,9 @@
-import { of } from "rxjs";
-import { reduce } from 'rxjs/operators'
+import { interval } from "rxjs";
+import { reduce, take, scan } from 'rxjs/operators'
 
-const observable = of(1,2,3,4,5).pipe(
-    reduce(
+const observable = interval(500).pipe(
+    take(5),
+    scan(
         (acc, val) => acc + val,
         0
     )
@@ -19,12 +20,7 @@ const subscription = observable.subscribe({
 
 console.log('hello')
 
-// The reduce operator is the counterpart to the array.reduce
-// function.
-
-// In some cases, we may want to accumulate the values emitted 
-// from an observable. The reduce operator accomplishes this 
-// action.
-
-// After the observable is completes, the reduce operator will
-// push the value it accumulated over time.
+// It limits the values pushed by an observable.
+// The take operator, accepts the number of values that can be 
+// pushed by an observable internally. Once the limit reaches,
+// the observable completes.

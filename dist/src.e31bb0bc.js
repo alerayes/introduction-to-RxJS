@@ -10109,11 +10109,9 @@ var _zipWith = require("../internal/operators/zipWith");
 
 var _rxjs = require("rxjs");
 var _operators = require("rxjs/operators");
-var observable = (0, _rxjs.fromEvent)(document, 'keydown').pipe((0, _operators.map)(function (event) {
-  return event.code;
-}), (0, _operators.filter)(function (code) {
-  return code === "Space";
-}));
+var observable = (0, _rxjs.of)(1, 2, 3, 4, 5).pipe((0, _operators.reduce)(function (acc, val) {
+  return acc + val;
+}, 0));
 var subscription = observable.subscribe({
   next: function next(value) {
     console.log(value);
@@ -10124,12 +10122,15 @@ var subscription = observable.subscribe({
 });
 console.log('hello');
 
-// It filters values pushed from an observable.
-// We can use the filter operator to stop an observable from 
-// pushing a value by setting a condition. If the condition is not met
-// the observer will never receive the value.
-// It's a great operator for filtering values while keeping the
-// observable active.
+// The reduce operator is the counterpart to the array.reduce
+// function.
+
+// In some cases, we may want to accumulate the values emitted 
+// from an observable. The reduce operator accomplishes this 
+// action.
+
+// After the observable is completes, the reduce operator will
+// push the value it accumulated over time.
 },{"rxjs":"../node_modules/rxjs/dist/esm5/index.js","rxjs/operators":"../node_modules/rxjs/dist/esm5/operators/index.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';

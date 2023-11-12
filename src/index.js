@@ -1,20 +1,8 @@
-import { timer, 
-        interval, 
-        fromEvent,
-        of,
-        from } from "rxjs";
+import { of } from "rxjs";
+import { map } from 'rxjs/operators'
 
-// const observable = interval(1000)
+const observable = of(1,2,3,4,5)
 
-// const observable =  timer(0,1000)
-
-// const observable = fromEvent(
-//     document, 'click'
-// )
-
-// const observable = of(1,2,3,4,5)
-
-const observable = from('https://jsonplaceholder.typicode.com/todos/1')
 
 const subscription = observable.subscribe({
     next(value) {
@@ -27,3 +15,7 @@ const subscription = observable.subscribe({
 
 console.log('hello')
 
+
+// The map operator will handle transforming a value pushed from an
+// observable. We have complete control over the transformation of
+// the value. It is very similar to the map function for an array.

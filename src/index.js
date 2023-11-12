@@ -1,5 +1,5 @@
 import { fromEvent, interval } from "rxjs";
-import { map, switchMap, take, tap } from 'rxjs/operators'
+import { map, concatMap, take, tap } from 'rxjs/operators'
 import { ajax } from 'rxjs/ajax'
 
 const button = document.querySelector('#btn')
@@ -7,7 +7,7 @@ const button = document.querySelector('#btn')
 const observable = fromEvent(
     button, 'click'
 ).pipe(
-    switchMap(() => {
+    concatMap(() => {
         return ajax.getJSON('https://jsonplaceholder.typicode.com/todos/1').pipe(
             take(5),
             tap({
@@ -30,15 +30,11 @@ const subscription = observable.subscribe({
 
 console.log('hello')
 
-// It performs a similar task to the mergeMap operator. Inner 
-// observables are automatically subscribed by this operator.
-
-// The mergeMap operator will not limit the number of inner active
-// observables. On the other hand, the switchMap operator will
-// limit the number of active, inner observables to one.
-
-// It is considered one of the safest flatenning operators.
-
-// It is great for managing one active subscription at a time.
-
-// One realistic scenario for this operator is to handle requests.
+// The concatMap operator is another operator for flattening
+// observables. The inner observables are automatically subscribed
+// by this operator. This operator will limit the number of active
+// observables to one.
+// Instead of cancelling the previous observable, like the switchMap
+// operator does, this operator will place observables into a 
+// queue. The next observable in the queue will not be subscribed
+// to until the current active observable has been completed.

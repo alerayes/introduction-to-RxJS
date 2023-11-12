@@ -10109,7 +10109,11 @@ var _zipWith = require("../internal/operators/zipWith");
 
 var _rxjs = require("rxjs");
 var _operators = require("rxjs/operators");
-var observable = (0, _rxjs.interval)(500).pipe((0, _operators.take)(5), (0, _operators.scan)(function (acc, val) {
+var observable = (0, _rxjs.interval)(500).pipe((0, _operators.take)(5), (0, _operators.tap)({
+  next: function next(val) {
+    console.log(val);
+  }
+}), (0, _operators.reduce)(function (acc, val) {
   return acc + val;
 }, 0));
 var subscription = observable.subscribe({
@@ -10122,10 +10126,10 @@ var subscription = observable.subscribe({
 });
 console.log('hello');
 
-// It limits the values pushed by an observable.
-// The take operator, accepts the number of values that can be 
-// pushed by an observable internally. Once the limit reaches,
-// the observable completes.
+// It's an operator purely for debugging a pipeline. It does not 
+// affect a stream or the values emitted from an observable.
+// We can insert the tap operator throughout the pipeline for 
+// debugging our operators by checking the values.
 },{"rxjs":"../node_modules/rxjs/dist/esm5/index.js","rxjs/operators":"../node_modules/rxjs/dist/esm5/operators/index.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';

@@ -1,5 +1,5 @@
 import { fromEvent, interval } from "rxjs";
-import { map, concatMap, take, tap } from 'rxjs/operators'
+import { map, exhaustMap, take, tap } from 'rxjs/operators'
 import { ajax } from 'rxjs/ajax'
 
 const button = document.querySelector('#btn')
@@ -7,7 +7,7 @@ const button = document.querySelector('#btn')
 const observable = fromEvent(
     button, 'click'
 ).pipe(
-    concatMap(() => {
+    exhaustMap(() => {
         return ajax.getJSON('https://jsonplaceholder.typicode.com/todos/1').pipe(
             take(5),
             tap({
@@ -30,11 +30,7 @@ const subscription = observable.subscribe({
 
 console.log('hello')
 
-// The concatMap operator is another operator for flattening
-// observables. The inner observables are automatically subscribed
-// by this operator. This operator will limit the number of active
-// observables to one.
-// Instead of cancelling the previous observable, like the switchMap
-// operator does, this operator will place observables into a 
-// queue. The next observable in the queue will not be subscribed
-// to until the current active observable has been completed.
+// The exhaustMap will subscribe to inner observables. It will
+// ignore incoming observables if the current observable is active.
+// It can be useful if you wanna wait for a current obsercable to
+// complete before moving on.
